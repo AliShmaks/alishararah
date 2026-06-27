@@ -1211,14 +1211,14 @@
           stroke-linecap="round"
           stroke-dasharray="8000"
           stroke-dashoffset="8000"
-          transform="translate(200, 50)">
-      <animate attributeName="stroke-dashoffset" 
-               from="8000" 
-               to="0" 
-               dur="3s" 
-               fill="freeze"
-               calcMode="spline"
-               keySplines="0.25 0.1 0.25 1"/>
+         transform="translate(200, 100) scale(0.65)">
+    <animate attributeName="stroke-dashoffset" 
+         from="8000" 
+         to="0" 
+         dur="5s" 
+         fill="freeze"
+         calcMode="spline"
+         keySplines="0.25 0.1 0.25 1"/>
     </path>
   </svg>
   
@@ -1619,7 +1619,7 @@
     const loader = document.getElementById('loader');
     const progressBar = document.getElementById('progressBar');
     const percentText = document.getElementById('percentText');
-   const duration = 3000;
+   const duration = 5000;
     const startTime = Date.now();
     
     function updateProgress() {
