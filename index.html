@@ -1791,7 +1791,7 @@
 </footer>
 
 <script>
-  // ----- GSAP + SCROLLTRIGGER for SERVICE CARDS -----
+    // ----- GSAP + SCROLLTRIGGER for SERVICE CARDS -----
   gsap.registerPlugin(ScrollTrigger);
 
   const tl = gsap.timeline({
@@ -2011,19 +2011,32 @@
   const statsEl = document.getElementById('stats');
   if (statsEl) statObs.observe(statsEl);
 
-  // ----- SIGNATURE LOADER -----
-window.addEventListener('load', function() {
-  const loader = document.getElementById('signatureLoader');
-  if (loader) {
+  // ============================================================
+  // ----- SIGNATURE LOADER - FIXED (RUNS IMMEDIATELY) -----
+  // ============================================================
+  (function() {
+    // Get the loader
+    const loader = document.getElementById('signatureLoader');
+    
+    // Make sure it's visible
+    if (loader) {
+      loader.style.display = 'flex';
+      loader.style.opacity = '1';
+      loader.style.visibility = 'visible';
+    }
+    
+    // Prevent scrolling
+    document.body.style.overflow = 'hidden';
+    
+    // Hide loader after 2 seconds
     setTimeout(function() {
-      loader.classList.add('hide');
-      document.body.style.overflow = 'auto';
-    }, 1800); // 1.8 seconds (1.2s draw + 0.6s pause)
-  }
-});
-
-// Prevent scrolling while loader is visible
-document.body.style.overflow = 'hidden';
+      if (loader) {
+        loader.classList.add('hide');
+        document.body.style.overflow = 'auto';
+      }
+    }, 2000);
+  })();
+</script>
 </script>
 
 </body>
