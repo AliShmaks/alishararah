@@ -1321,76 +1321,29 @@
   </style>
 </head>
 <body>
-<!-- Signature Loader -->
+<!-- Signature Loader - SIMPLE & WORKING -->
 <div id="signatureLoader">
-  <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-    <!-- The "Ali" signature path - hand-drawn style -->
-    <path d="M15,70 C25,30 40,85 55,45 C65,20 80,75 95,50 C105,30 115,65 130,55 
-             C140,48 148,70 160,55 C170,42 178,60 190,50 C200,40 210,62 225,45 
-             C235,32 245,70 260,50 C270,35 278,55 290,48 C300,40 310,65 325,50 
-             C335,38 345,58 360,45 C370,32 378,60 390,50 C400,40 408,55 420,48 
-             C430,42 438,58 450,50" 
-          stroke="#2dd4bf" 
-          stroke-width="3" 
-          fill="none" 
-          stroke-linecap="round"
-          stroke-dasharray="900"
-          stroke-dashoffset="900">
-      <animate attributeName="stroke-dashoffset" 
-               from="900" 
-               to="0" 
-               dur="1.2s" 
-               fill="freeze"
-               calcMode="spline"
-               keySplines="0.25 0.1 0.25 1"/>
-    </path>
-    <!-- Shine effect on signature -->
-    <path d="M15,70 C25,30 40,85 55,45 C65,20 80,75 95,50 C105,30 115,65 130,55 
-             C140,48 148,70 160,55 C170,42 178,60 190,50 C200,40 210,62 225,45 
-             C235,32 245,70 260,50 C270,35 278,55 290,48 C300,40 310,65 325,50 
-             C335,38 345,58 360,45 C370,32 378,60 390,50 C400,40 408,55 420,48 
-             C430,42 438,58 450,50" 
-          stroke="rgba(45, 212, 191, 0.3)" 
-          stroke-width="6" 
-          fill="none" 
-          stroke-linecap="round"
-          filter="url(#glow)">
-      <animate attributeName="stroke-dashoffset" 
-               from="900" 
-               to="0" 
-               dur="1.2s" 
-               fill="freeze"
-               calcMode="spline"
-               keySplines="0.25 0.1 0.25 1"/>
-    </path>
-    <!-- Text that fades in after signature -->
-    <text x="250" y="100" 
-          font-family="'DM Mono', monospace" 
-          font-size="14" 
-          fill="#2dd4bf" 
-          text-anchor="middle" 
-          opacity="0"
-          letter-spacing="6">
+  <div style="text-align: center; padding: 20px;">
+    <h1 style="color: #2dd4bf; font-size: clamp(2.5rem, 8vw, 4rem); font-family: 'DM Mono', monospace; letter-spacing: 8px; margin-bottom: 10px;">
       SHARARAH
-      <animate attributeName="opacity" 
-               from="0" 
-               to="1" 
-               dur="0.6s" 
-               begin="1.2s" 
-               fill="freeze"/>
-    </text>
-    <!-- Glow filter -->
-    <defs>
-      <filter id="glow">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-  </svg>
+    </h1>
+    <p style="color: rgba(45, 212, 191, 0.5); font-family: 'DM Sans', sans-serif; letter-spacing: 4px; font-size: 0.8rem; margin-bottom: 20px;">
+      FULL-STACK DEVELOPER
+    </p>
+    <div style="display: flex; justify-content: center; gap: 10px;">
+      <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2dd4bf; animation: dotPulse 1.2s ease-in-out infinite;"></span>
+      <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2dd4bf; animation: dotPulse 1.2s ease-in-out infinite 0.4s;"></span>
+      <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #2dd4bf; animation: dotPulse 1.2s ease-in-out infinite 0.8s;"></span>
+    </div>
+  </div>
 </div>
+
+<style>
+  @keyframes dotPulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+</style>
 <!-- NAV -->
 <nav id="nav">
   <a href="#hero" class="nav-logo">SH<span>//</span>RARAH</a>
@@ -2064,15 +2017,22 @@
   }, { threshold: 0.3 });
   const statsEl = document.getElementById('stats');
   if (statsEl) statObs.observe(statsEl);
-  // ----- SIGNATURE LOADER -----
+
+  
+// ----- SIGNATURE LOADER -----
 window.addEventListener('load', function() {
   const loader = document.getElementById('signatureLoader');
   if (loader) {
-    // Hide loader after 2.2 seconds (1.5s draw + 0.7s pause)
+    // Show loader immediately
+    loader.style.display = 'flex';
+    loader.style.opacity = '1';
+    loader.style.visibility = 'visible';
+    
+    // Hide loader after 2.2 seconds
     setTimeout(function() {
       loader.classList.add('hide');
       // Enable scrolling after loader hides
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'auto';
     }, 2200);
   }
 });
