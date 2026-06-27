@@ -1306,81 +1306,35 @@
   max-width: 420px;
   width: 85%;
 }
+    /* Loader Animation */
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+#signatureLoader {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#signatureLoader.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
   </style>
 </head>
 <body>
 
 
-  <!-- Signature Loader -->
-<div id="signatureLoader">
-  <svg viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg">
-    <!-- "Ali" Signature Path -->
-    <path d="M15,90 C35,40 55,100 75,60 C90,30 105,85 120,65 C135,45 145,80 160,60 
-             C175,40 185,75 200,55 C215,35 225,70 240,50 C255,30 265,65 280,45 
-             C295,25 305,60 320,40 C335,20 345,55 360,35 C375,15 385,50 400,30 
-             C415,10 425,45 440,25 C450,12 458,40 470,20" 
-          stroke="#2dd4bf" 
-          stroke-width="4" 
-          fill="none" 
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-dasharray="800"
-          stroke-dashoffset="800">
-      <animate attributeName="stroke-dashoffset" 
-               from="800" 
-               to="0" 
-               dur="1.2s" 
-               fill="freeze"
-               calcMode="spline"
-               keySplines="0.25 0.1 0.25 1"/>
-    </path>
-    <!-- Glow Effect -->
-    <path d="M15,90 C35,40 55,100 75,60 C90,30 105,85 120,65 C135,45 145,80 160,60 
-             C175,40 185,75 200,55 C215,35 225,70 240,50 C255,30 265,65 280,45 
-             C295,25 305,60 320,40 C335,20 345,55 360,35 C375,15 385,50 400,30 
-             C415,10 425,45 440,25 C450,12 458,40 470,20" 
-          stroke="rgba(45, 212, 191, 0.3)" 
-          stroke-width="8" 
-          fill="none" 
-          stroke-linecap="round"
-          stroke-dasharray="800"
-          stroke-dashoffset="800"
-          filter="url(#glow)">
-      <animate attributeName="stroke-dashoffset" 
-               from="800" 
-               to="0" 
-               dur="1.2s" 
-               fill="freeze"
-               calcMode="spline"
-               keySplines="0.25 0.1 0.25 1"/>
-    </path>
-    <!-- Text that fades in -->
-    <text x="250" y="120" 
-          font-family="'DM Mono', monospace" 
-          font-size="16" 
-          fill="#2dd4bf" 
-          text-anchor="middle" 
-          opacity="0"
-          letter-spacing="8">
-      SHARARAH
-      <animate attributeName="opacity" 
-               from="0" 
-               to="1" 
-               dur="0.6s" 
-               begin="1.2s" 
-               fill="freeze"/>
-    </text>
-    <!-- Glow Filter -->
-    <defs>
-      <filter id="glow">
-        <feGaussianBlur stdDeviation="4" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-  </svg>
+<!-- SIGNATURE LOADER - GUARANTEED WORKING -->
+<div id="signatureLoader" style="position:fixed;inset:0;background:#0a0a09;display:flex;align-items:center;justify-content:center;z-index:9999999;flex-direction:column;gap:20px;">
+  <h1 style="color:#2dd4bf;font-size:clamp(2.5rem,8vw,4rem);font-family:'DM Mono',monospace;letter-spacing:8px;">SHARARAH</h1>
+  <p style="color:rgba(45,212,191,0.5);font-family:'DM Sans',sans-serif;letter-spacing:4px;font-size:0.8rem;">FULL-STACK DEVELOPER</p>
+  <div style="display:flex;gap:10px;margin-top:10px;">
+    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2dd4bf;opacity:0.2;animation:pulse 1.2s ease-in-out infinite;"></span>
+    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2dd4bf;opacity:0.2;animation:pulse 1.2s ease-in-out infinite 0.4s;"></span>
+    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2dd4bf;opacity:0.2;animation:pulse 1.2s ease-in-out infinite 0.8s;"></span>
+  </div>
 </div>
 
 <!-- NAV -->
