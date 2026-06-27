@@ -1200,55 +1200,72 @@
      LOADER - 100% WORKING
      ============================================================ -->
 <div id="loader">
-  <svg viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg">
-    <!-- Glow Effect -->
-    <path d="M15,90 C35,40 55,100 75,60 C90,30 105,85 120,65 C135,45 145,80 160,60 
-             C175,40 185,75 200,55 C215,35 225,70 240,50 C255,30 265,65 280,45 
-             C295,25 305,60 320,40 C335,20 345,55 360,35 C375,15 385,50 400,30 
-             C415,10 425,45 440,25 C450,12 458,40 470,20" 
+  <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+    <!-- Glow behind signature -->
+    <path d="M20,100 C35,40 55,110 75,65 C90,30 110,95 130,55 C145,25 160,85 180,50 
+             C195,20 210,80 230,45 C245,15 260,75 280,40 C295,10 310,70 330,35 
+             C345,5 360,65 375,30" 
           stroke="rgba(45, 212, 191, 0.15)" 
-          stroke-width="12" 
+          stroke-width="14" 
           fill="none" 
           stroke-linecap="round"
-          stroke-dasharray="900"
-          stroke-dashoffset="900"
+          stroke-dasharray="800"
+          stroke-dashoffset="800"
           filter="url(#glow)">
       <animate attributeName="stroke-dashoffset" 
-               from="900" 
+               from="800" 
                to="0" 
                dur="1.2s" 
                fill="freeze"
                calcMode="spline"
                keySplines="0.25 0.1 0.25 1"/>
     </path>
-    <!-- Main Signature -->
-    <path d="M15,90 C35,40 55,100 75,60 C90,30 105,85 120,65 C135,45 145,80 160,60 
-             C175,40 185,75 200,55 C215,35 225,70 240,50 C255,30 265,65 280,45 
-             C295,25 305,60 320,40 C335,20 345,55 360,35 C375,15 385,50 400,30 
-             C415,10 425,45 440,25 C450,12 458,40 470,20" 
+    
+    <!-- Main "Ali" Signature -->
+    <path d="M20,100 C35,40 55,110 75,65 C90,30 110,95 130,55 C145,25 160,85 180,50 
+             C195,20 210,80 230,45 C245,15 260,75 280,40 C295,10 310,70 330,35 
+             C345,5 360,65 375,30" 
+          stroke="#2dd4bf" 
+          stroke-width="4" 
+          fill="none" 
+          stroke-linecap="round"
+          stroke-dasharray="800"
+          stroke-dashoffset="800">
+      <animate attributeName="stroke-dashoffset" 
+               from="800" 
+               to="0" 
+               dur="1.2s" 
+               fill="freeze"
+               calcMode="spline"
+               keySplines="0.25 0.1 0.25 1"/>
+    </path>
+    
+    <!-- "A" accent mark -->
+    <path d="M30,85 C40,60 50,100 60,80" 
           stroke="#2dd4bf" 
           stroke-width="3" 
           fill="none" 
           stroke-linecap="round"
-          stroke-dasharray="900"
-          stroke-dashoffset="900">
+          stroke-dasharray="50"
+          stroke-dashoffset="50"
+          opacity="0.6">
       <animate attributeName="stroke-dashoffset" 
-               from="900" 
+               from="50" 
                to="0" 
-               dur="1.2s" 
-               fill="freeze"
-               calcMode="spline"
-               keySplines="0.25 0.1 0.25 1"/>
+               dur="0.6s" 
+               begin="1.2s" 
+               fill="freeze"/>
     </path>
-    <!-- Text -->
-    <text x="250" y="120" 
+    
+    <!-- "Ali" text label -->
+    <text x="200" y="140" 
           font-family="'DM Mono', monospace" 
-          font-size="16" 
+          font-size="18" 
           fill="#2dd4bf" 
           text-anchor="middle" 
           opacity="0"
-          letter-spacing="8">
-      SHARARAH
+          letter-spacing="6">
+      ALI SHARARAH
       <animate attributeName="opacity" 
                from="0" 
                to="1" 
@@ -1256,6 +1273,17 @@
                begin="1.2s" 
                fill="freeze"/>
     </text>
+    
+    <!-- Small dot accent -->
+    <circle cx="380" cy="32" r="4" fill="#2dd4bf" opacity="0">
+      <animate attributeName="opacity" 
+               from="0" 
+               to="1" 
+               dur="0.4s" 
+               begin="1.4s" 
+               fill="freeze"/>
+    </circle>
+    
     <defs>
       <filter id="glow">
         <feGaussianBlur stdDeviation="6" result="blur"/>
@@ -1272,31 +1300,6 @@
     <div class="loader-progress-bar" id="progressBar"></div>
   </div>
   <div class="loader-percent" id="percentText">0%</div>
-</div>
-
-<!-- NAV -->
-<nav id="nav">
-  <a href="#hero" class="nav-logo">SH<span>//</span>RARAH</a>
-  <div class="nav-links">
-    <a href="#services" class="nav-link">Services</a>
-    <a href="#projects" class="nav-link">Work</a>
-    <a href="#skills" class="nav-link">Skills</a>
-    <a href="#tools" class="nav-link">Tools</a>
-    <a href="#about" class="nav-link">About</a>
-    <a href="#social" class="nav-link">Contact</a>
-    <a href="#tools" class="nav-cta">Get Tools</a>
-  </div>
-  <button class="hamburger" id="hbg" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="nav-mobile" id="navMob">
-  <a href="#services" onclick="closeNav()">Services</a>
-  <a href="#projects" onclick="closeNav()">Work</a>
-  <a href="#skills" onclick="closeNav()">Skills</a>
-  <a href="#tools" onclick="closeNav()">Tools</a>
-  <a href="#about" onclick="closeNav()">About</a>
-  <a href="#social" onclick="closeNav()">Contact</a>
 </div>
 
 <!-- HERO -->
