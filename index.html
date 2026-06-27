@@ -1317,6 +1317,16 @@
 @keyframes fadeInText {
   to { opacity: 1; }
 }
+    /* Force loader to be visible */
+#signatureLoader {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#signatureLoader.hide {
+  display: none !important;
+}
 
   </style>
 </head>
