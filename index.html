@@ -1896,8 +1896,8 @@
   const statsEl = document.getElementById('stats');
   if (statsEl) statObs.observe(statsEl);
 
-  // ============================================================
-  // LOADER - SIGNATURE DRAWS SLOW
+   // ============================================================
+  // LOADER - SIGNATURE DRAWS SLOWLY
   // ============================================================
   (function() {
     const loader = document.getElementById('loader');
@@ -1912,7 +1912,7 @@
       signaturePath.getBoundingClientRect();
     }
     
-    const duration = 3000; // Progress bar takes 3 seconds
+    const duration = 4000; // 4 seconds total
     const startTime = Date.now();
     let signatureStarted = false;
     
@@ -1925,12 +1925,12 @@
       if (progressBar) progressBar.style.width = percent + '%';
       if (percentText) percentText.textContent = percent + '%';
       
-      // Start signature right away
+      // Start signature at very beginning
       if (!signatureStarted) {
         signatureStarted = true;
         if (signaturePath) {
-          // Signature takes 3 seconds - SAME as progress bar
-          signaturePath.style.transition = `stroke-dashoffset 3000ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
+          // Make signature take 4 seconds - SLOW
+          signaturePath.style.transition = `stroke-dashoffset 4000ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
           signaturePath.style.strokeDashoffset = '0';
         }
       }
@@ -1943,7 +1943,7 @@
             loader.classList.add('hide');
             document.body.style.overflow = 'auto';
           }
-        }, 300);
+        }, 400);
       }
     }
     
@@ -1967,7 +1967,7 @@
           }
         }, 300);
       }
-    }, 4000);
+    }, 5000);
     
     document.body.style.overflow = 'hidden';
   })();
