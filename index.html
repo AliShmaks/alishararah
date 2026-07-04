@@ -1901,110 +1901,38 @@
   const statsEl = document.getElementById('stats');
   if (statsEl) statObs.observe(statsEl);
 
-   // ============================================================
-  // LOADER 
+  // ============================================================
+  // LOADER - SIGNATURE ONLY (PROGRESS BAR + HIDE)
   // ============================================================
   (function() {
     const loader = document.getElementById('loader');
     const progressBar = document.getElementById('progressBar');
     const percentText = document.getElementById('percentText');
-    
-    // Get the signature path
-    let signaturePath = document.getElementById('signaturePath');
-    if (!signaturePath) {
-      const svg = loader?.querySelector('svg');
-      signaturePath = svg?.querySelector('path');
-    }
-    
-    // If no path found, use simple timer
-    if (!signaturePath) {
-      console.warn('Signature path not found, using simple timer');
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 2;
-        if (progress > 100) progress = 100;
-        if (progressBar) progressBar.style.width = progress + '%';
-        if (percentText) percentText.textContent = progress + '%';
-        
-        if (progress >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            if (loader) {
-              loader.classList.add('hide');
-              document.body.style.overflow = 'auto';
-            }
-          }, 300);
-        }
-      }, 50);
-      return;
-    }
-    
-    // Set initial state - signature hidden
-    signaturePath.style.strokeDashoffset = '8000';
-    signaturePath.style.transition = 'none';
-    
-    // Force a reflow
-    signaturePath.getBoundingClientRect();
-    
-    const duration = 3000; // 3 seconds for both signature + progress
+   const duration = 1400;
     const startTime = Date.now();
-    let animationStarted = false;
     
     function updateProgress() {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const percent = Math.round(progress * 100);
       
-      // Update progress bar - SYNCED with signature
       if (progressBar) progressBar.style.width = percent + '%';
       if (percentText) percentText.textContent = percent + '%';
-      
-      // Start signature animation at the same time
-      if (!animationStarted) {
-        animationStarted = true;
-        signaturePath.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
-        signaturePath.style.strokeDashoffset = '0';
-      }
       
       if (progress < 1) {
         requestAnimationFrame(updateProgress);
       } else {
-        // BOTH reach 100% at the EXACT same time
-        if (progressBar) progressBar.style.width = '100%';
-        if (percentText) percentText.textContent = '100%';
-        
-        // Wait a moment for the signature to fully complete
         setTimeout(function() {
           if (loader) {
             loader.classList.add('hide');
             document.body.style.overflow = 'auto';
           }
-        }, 400); // Small extra delay to ensure signature is fully drawn
+        }, 100);
       }
     }
     
-    // Start everything
-    setTimeout(() => {
-      updateProgress();
-    }, 100);
-    
-    // FALLBACK: Force complete if stuck
-    setTimeout(() => {
-      if (loader && !loader.classList.contains('hide')) {
-        if (progressBar) progressBar.style.width = '100%';
-        if (percentText) percentText.textContent = '100%';
-        if (signaturePath) {
-          signaturePath.style.transition = 'none';
-          signaturePath.style.strokeDashoffset = '0';
-        }
-        setTimeout(() => {
-          if (loader) {
-            loader.classList.add('hide');
-            document.body.style.overflow = 'auto';
-          }
-        }, 300);
-      }
-    }, 4000);
+    // Start progress animation
+    updateProgress();
     
     // Prevent scrolling while loader is visible
     document.body.style.overflow = 'hidden';
