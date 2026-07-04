@@ -1897,7 +1897,7 @@
   if (statsEl) statObs.observe(statsEl);
 
    // ============================================================
-  // LOADER 
+  // LOADER - SEPARATE TIMERS (SVG slower, Progress faster)
   // ============================================================
   (function() {
     const loader = document.getElementById('loader');
@@ -1907,7 +1907,7 @@
     
     // Get the ACTUAL length of the path
     const pathLength = signaturePath.getTotalLength();
-    console.log('Path length:', pathLength); // Check console to see actual length
+    console.log('Path length:', pathLength);
     
     // Set initial state - signature hidden using ACTUAL length
     if (signaturePath) {
@@ -1917,36 +1917,60 @@
       signaturePath.getBoundingClientRect();
     }
     
-    const duration = 4000; // 4 seconds total
+    // ═════════════════════════════════════════════════════════════
+    // ADJUST THESE TWO NUMBERS:
+    // ═════════════════════════════════════════════════════════════
+    const svgDuration = 5000;        // ← SVG takes 5 seconds (slower)
+    const progressDuration = 3000;   // ← Progress bar takes 3 seconds (faster)
+    // ═════════════════════════════════════════════════════════════
+    
     const startTime = Date.now();
     let signatureStarted = false;
+    let progressFinished = false;
     
     function updateProgress() {
       const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      
+      // Progress bar - uses FASTER timer
+      const progress = Math.min(elapsed / progressDuration, 1);
       const percent = Math.round(progress * 100);
       
+      // SVG - uses SLOWER timer
+      const svgProgress = Math.min(elapsed / svgDuration, 1);
+      
+      // Update progress bar
       if (progressBar) progressBar.style.width = percent + '%';
       if (percentText) percentText.textContent = percent + '%';
       
-      if (!signatureStarted) {
+      // Start SVG animation when ready
+      if (!signatureStarted && svgProgress > 0.01) {
         signatureStarted = true;
         if (signaturePath) {
-          // Use the ACTUAL path length
-          signaturePath.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
+          // SVG takes the full svgDuration to draw
+          const remainingTime = svgDuration * (1 - 0.01);
+          signaturePath.style.transition = `stroke-dashoffset ${remainingTime}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
           signaturePath.style.strokeDashoffset = '0';
         }
       }
       
-      if (progress < 1) {
+      // Check if progress bar is done
+      if (progress >= 1 && !progressFinished) {
+        progressFinished = true;
+        // Progress bar reached 100% - but wait for SVG to finish
+        // We'll hide when SVG is also done
+      }
+      
+      // Keep updating until BOTH are done
+      if (svgProgress < 1 || progress < 1) {
         requestAnimationFrame(updateProgress);
       } else {
+        // BOTH are done - hide loader
         setTimeout(function() {
           if (loader) {
             loader.classList.add('hide');
             document.body.style.overflow = 'auto';
           }
-        }, 400);
+        }, 300);
       }
     }
     
@@ -1954,6 +1978,7 @@
       updateProgress();
     }, 100);
     
+    // FALLBACK: Force complete after 6 seconds (in case something breaks)
     setTimeout(() => {
       if (loader && !loader.classList.contains('hide')) {
         if (progressBar) progressBar.style.width = '100%';
@@ -1969,7 +1994,7 @@
           }
         }, 300);
       }
-    }, 5000);
+    }, 6000);
     
     document.body.style.overflow = 'hidden';
   })();
