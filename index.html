@@ -1896,7 +1896,7 @@
   const statsEl = document.getElementById('stats');
   if (statsEl) statObs.observe(statsEl);
 
-  // ============================================================
+    // ============================================================
   // LOADER 
   // ============================================================
   (function() {
@@ -1907,7 +1907,7 @@
     
     // Get the ACTUAL length of the path
     const pathLength = signaturePath.getTotalLength();
-    console.log('Path length:', pathLength); // Check console to see actual length
+    console.log('Path length:', pathLength);
     
     // Set initial state - signature hidden using ACTUAL length
     if (signaturePath) {
@@ -1932,7 +1932,6 @@
       if (!signatureStarted) {
         signatureStarted = true;
         if (signaturePath) {
-          // Use the ACTUAL path length
           signaturePath.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
           signaturePath.style.strokeDashoffset = '0';
         }
@@ -1941,12 +1940,13 @@
       if (progress < 1) {
         requestAnimationFrame(updateProgress);
       } else {
+        // HIDE FASTER - change 400 to 100 or 50
         setTimeout(function() {
           if (loader) {
             loader.classList.add('hide');
             document.body.style.overflow = 'auto';
           }
-        }, 400);
+        }, 100); // ← CHANGED from 400 to 100
       }
     }
     
@@ -1967,7 +1967,7 @@
             loader.classList.add('hide');
             document.body.style.overflow = 'auto';
           }
-        }, 300);
+        }, 100); // ← Also changed here
       }
     }, 5000);
     
