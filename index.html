@@ -1897,7 +1897,7 @@
   if (statsEl) statObs.observe(statsEl);
 
    // ============================================================
-  // LOADER - SLOW SIGNATURE DRAW
+  // LOADER 
   // ============================================================
   (function() {
     const loader = document.getElementById('loader');
@@ -1905,14 +1905,19 @@
     const percentText = document.getElementById('percentText');
     const signaturePath = document.getElementById('signaturePath');
     
-    // Set initial state - signature hidden
+    // Get the ACTUAL length of the path
+    const pathLength = signaturePath.getTotalLength();
+    console.log('Path length:', pathLength); // Check console to see actual length
+    
+    // Set initial state - signature hidden using ACTUAL length
     if (signaturePath) {
-      signaturePath.style.strokeDashoffset = '8000';
+      signaturePath.style.strokeDasharray = pathLength;
+      signaturePath.style.strokeDashoffset = pathLength;
       signaturePath.style.transition = 'none';
       signaturePath.getBoundingClientRect();
     }
     
-    const duration = 4000; // ← CHANGE THIS: 4 seconds for BOTH
+    const duration = 4000; // 4 seconds total
     const startTime = Date.now();
     let signatureStarted = false;
     
@@ -1927,7 +1932,8 @@
       if (!signatureStarted) {
         signatureStarted = true;
         if (signaturePath) {
-          signaturePath.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`; // ← ALSO CHANGES HERE
+          // Use the ACTUAL path length
+          signaturePath.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
           signaturePath.style.strokeDashoffset = '0';
         }
       }
