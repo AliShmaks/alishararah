@@ -2077,14 +2077,14 @@ window.addEventListener('touchend', (e) => {
   // If touch lasted less than 200ms and didn't move, it's a click
   const touchDuration = Date.now() - touchStartTime;
   if (!touchMoved && touchDuration < 200) {
-    // Let the click happen naturally
-    setTimeout(() => {
-      isDragging = false;
-    }, 10);
-  } else {
-    onEnd();
+    // Allow the click to happen naturally
+    isDragging = false;
+    return;
   }
+  onEnd();
 }, { passive: true });
+
+
 // Prevent card clicks when dragging
 cardElements.forEach(card => {
   card.addEventListener('click', function(e) {
@@ -2093,7 +2093,6 @@ cardElements.forEach(card => {
       e.stopPropagation();
       return false;
     }
-    // Normal click - let the link work
     return true;
   });
 });
