@@ -1273,6 +1273,145 @@
     gap: 40px !important;
   }
 }
+
+/* Fix for mobile card clicks */
+@media (max-width: 768px) {
+  .carousel-card {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .carousel-stage {
+    touch-action: pan-y !important;
+  }
+  
+  .carousel-track {
+    pointer-events: none !important;
+  }
+  
+  .carousel-card {
+    pointer-events: auto !important;
+  }
+}
+
+/* Mobile - Better 3D carousel with multiple cards visible */
+@media (max-width: 768px) {
+  .carousel-stage {
+    height: 400px !important;
+    perspective: 800px !important;
+    perspective-origin: 50% 40% !important;
+    overflow: visible !important;
+  }
+  
+  .carousel-track {
+    transform-style: preserve-3d !important;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .carousel-card {
+    position: absolute !important;
+    width: 220px !important;
+    height: 300px !important;
+    left: 50% !important;
+    top: 50% !important;
+    margin-left: -110px !important;
+    margin-top: -150px !important;
+    border-radius: 18px !important;
+    backface-visibility: visible !important;
+    transition: none !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8) !important;
+  }
+  
+  .carousel-card .card-media {
+    height: 50% !important;
+  }
+  
+  .carousel-card .card-body {
+    padding: 14px 16px 18px !important;
+  }
+  
+  .carousel-card .card-name {
+    font-size: 0.95rem !important;
+  }
+  
+  .carousel-card .card-desc {
+    font-size: 0.65rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  
+  .carousel-card .card-tag {
+    font-size: 0.5rem !important;
+  }
+  
+  .carousel-card .card-link {
+    font-size: 0.6rem !important;
+  }
+  
+  /* Keep the 3D rotation effect but smoother */
+  .carousel-card {
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  }
+  
+  /* Make navigation bigger and more touch-friendly */
+  .carousel-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.2rem !important;
+    background: rgba(15,15,13,0.8) !important;
+  }
+  
+  .carousel-indicator {
+    font-size: 0.7rem !important;
+    min-width: 50px !important;
+  }
+  
+  .carousel-nav {
+    gap: 16px !important;
+    margin-top: 30px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-stage {
+    height: 340px !important;
+    perspective: 600px !important;
+  }
+  
+  .carousel-card {
+    width: 180px !important;
+    height: 260px !important;
+    margin-left: -90px !important;
+    margin-top: -130px !important;
+    border-radius: 16px !important;
+  }
+  
+  .carousel-card .card-body {
+    padding: 10px 12px 14px !important;
+  }
+  
+  .carousel-card .card-name {
+    font-size: 0.85rem !important;
+  }
+  
+  .carousel-card .card-desc {
+    font-size: 0.55rem !important;
+    -webkit-line-clamp: 1 !important;
+  }
+  
+  .carousel-card .card-link {
+    font-size: 0.55rem !important;
+  }
+  
+  .carousel-btn {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 1rem !important;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -1772,7 +1911,7 @@
   if (statsEl) statObs.observe(statsEl);
 
 // ============================================================
-// 3D CAROUSEL – PROJECTS (FULLY FIXED)
+// 3D CAROUSEL – PROJECTS (FULLY FIXED WITH MOBILE CLICKS)
 // ============================================================
 const projectData = [
   { tag: 'News · Politics', name: 'أخبار سويسرا الشرق', desc: 'Lebanese news platform covering politics, economy, and sports with real-time updates.', link: 'https://swis-news.vercel.app/', img: 'logoswis.jpg', fallback: '📰' },
@@ -1786,7 +1925,8 @@ const track = document.getElementById('carouselTrack');
 const indicator = document.getElementById('indicator');
 let currentIndex = 0;
 const total = projectData.length;
-const radius = 420;
+const isMobile = window.innerWidth <= 768;
+const radius = isMobile ? 280 : 420;
 let cardElements = [];
 let isAnimating = false;
 
@@ -1798,6 +1938,8 @@ projectData.forEach((p, i) => {
   card.target = '_blank';
   card.rel = 'noopener';
   card.dataset.index = i;
+  card.style.cursor = 'pointer';
+  card.style.pointerEvents = 'auto';
   const imgHtml = p.img ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'" />` : '';
   card.innerHTML = `
     <div class="card-media">
@@ -1819,6 +1961,7 @@ projectData.forEach((p, i) => {
 });
 
 let currentAngle = 0;
+let touchMoved = false;
 
 function positionCards(angle, animate = true) {
   const angleStep = (Math.PI * 2) / total;
@@ -1836,7 +1979,7 @@ function positionCards(angle, animate = true) {
     
     card.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${rotY}deg) rotateX(2deg)`;
     const depth = (z + 400) / 800;
-    card.style.opacity = 0.3 + 0.7 * depth;
+    card.style.opacity = 1;
     card.style.zIndex = Math.round(depth * 10);
     card.style.filter = `brightness(${0.5 + 0.5 * depth})`;
   });
@@ -1899,6 +2042,7 @@ const stage = document.getElementById('carouselStage');
 function onStart(clientX) {
   if (isAnimating) return;
   isDragging = true;
+  touchMoved = false;
   startX = clientX;
   startAngle = currentAngle;
   stage.style.cursor = 'grabbing';
@@ -1911,7 +2055,10 @@ function onStart(clientX) {
 function onMove(clientX) {
   if (!isDragging) return;
   const deltaX = clientX - startX;
-  const angleDelta = deltaX / 300;
+  if (Math.abs(deltaX) > 10) {
+    touchMoved = true;
+  }
+  const angleDelta = deltaX / 150;
   dragAngle = startAngle + angleDelta;
   positionCards(dragAngle, false);
 }
@@ -1958,8 +2105,9 @@ stage.addEventListener('mousedown', (e) => onStart(e.clientX));
 window.addEventListener('mousemove', (e) => onMove(e.clientX));
 window.addEventListener('mouseup', onEnd);
 
-// Touch events
+// Touch events - prevent clicks during drag
 stage.addEventListener('touchstart', (e) => {
+  touchMoved = false;
   const touch = e.touches[0];
   if (touch) onStart(touch.clientX);
 }, { passive: true });
@@ -1969,9 +2117,31 @@ window.addEventListener('touchmove', (e) => {
   if (touch) onMove(touch.clientX);
 }, { passive: true });
 
-window.addEventListener('touchend', onEnd, { passive: true });
+window.addEventListener('touchend', (e) => {
+  // If we didn't drag, let clicks work normally
+  if (!touchMoved) {
+    // Small delay to allow click events to fire
+    setTimeout(() => {
+      isDragging = false;
+    }, 10);
+  }
+  onEnd();
+}, { passive: true });
 
-console.log('🚀 3D CAROUSEL · FULLY FIXED - no more jumping to Swissra!');
+// Prevent card clicks when dragging
+cardElements.forEach(card => {
+  card.addEventListener('click', function(e) {
+    if (isDragging || touchMoved) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+    // Normal click - let the link work
+    return true;
+  });
+});
+
+console.log('🚀 3D CAROUSEL · FULLY FIXED - mobile clicks work!');
 
 
 // ----- CONTACT FORM -----
