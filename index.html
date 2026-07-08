@@ -857,20 +857,6 @@
       text-align: center;
     }
 
-    @media (max-width: 768px) {
-      #projects { padding: 80px 24px; }
-      .carousel-stage { height: 400px; }
-      .carousel-card { width: 200px; height: 280px; margin-left: -100px; margin-top: -140px; }
-      .card-body { padding: 14px 16px 18px; }
-      .card-name { font-size: 1rem; }
-      .card-desc { font-size: .7rem; }
-      .carousel-btn { width: 48px; height: 48px; font-size: 1.2rem; }
-    }
-    @media (max-width: 480px) {
-      .carousel-card { width: 170px; height: 240px; margin-left: -85px; margin-top: -120px; }
-      .carousel-stage { height: 320px; }
-    }
-
     /* ----- skills ----- */
     #skills { background: var(--bg); }
     .skills-layout {
@@ -1115,7 +1101,7 @@
       margin-top: 6px;
     }
 
-    /* ----- social ----- */
+    /* ----- social / contact ----- */
     #social { background: var(--bg); }
     .social-grid {
       display: grid;
@@ -1247,7 +1233,7 @@
       .skills-layout { grid-template-columns: 1fr; gap: 40px; }
       .about-layout { grid-template-columns: 1fr; gap: 48px; }
       .about-side { order: -1; }
-      .social-grid { grid-template-columns: 1fr; }
+      .social-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
       footer { flex-direction: column; gap: 16px; padding: 40px 24px; text-align: center; }
       .hero-title { font-size: clamp(3rem, 13vw, 6rem); }
       .hero-left { width: 100%; }
@@ -1260,287 +1246,131 @@
       .wallet-stack { width: 280px; height: 380px; }
       .wallet-label { display: none; }
       .card-number-row span { font-size: 0.8rem; padding: 0.1rem 0.4rem; }
+
+      /* 3D carousel mobile */
+      .carousel-stage {
+        height: 460px !important;
+        perspective: 900px !important;
+        perspective-origin: 50% 40% !important;
+        overflow: visible !important;
+      }
+      
+      .carousel-track {
+        transform-style: preserve-3d !important;
+        transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+        width: 100% !important;
+        height: 100% !important;
+        pointer-events: none !important;
+      }
+      
+      .carousel-card {
+        position: absolute !important;
+        width: 280px !important;
+        height: 360px !important;
+        left: 50% !important;
+        top: 50% !important;
+        margin-left: -140px !important;
+        margin-top: -180px !important;
+        border-radius: 20px !important;
+        backface-visibility: visible !important;
+        transition: none !important;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.9) !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      .carousel-card .card-media {
+        height: 50% !important;
+      }
+      
+      .carousel-card .card-body {
+        padding: 16px 18px 20px !important;
+      }
+      
+      .carousel-card .card-name {
+        font-size: 1rem !important;
+      }
+      
+      .carousel-card .card-desc {
+        font-size: 0.7rem !important;
+        -webkit-line-clamp: 2 !important;
+      }
+      
+      .carousel-card .card-tag {
+        font-size: 0.55rem !important;
+      }
+      
+      .carousel-card .card-link {
+        font-size: 0.65rem !important;
+      }
+      
+      .carousel-card {
+        transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+      }
+      
+      .carousel-card:active {
+        transform: scale(0.97) !important;
+      }
+      
+      .carousel-btn {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 1.3rem !important;
+        background: rgba(15,15,13,0.85) !important;
+      }
+      
+      .carousel-indicator {
+        font-size: 0.75rem !important;
+        min-width: 55px !important;
+      }
+      
+      .carousel-nav {
+        gap: 20px !important;
+        margin-top: 35px !important;
+      }
     }
 
     @media (max-width: 480px) {
       .stats-grid { grid-template-columns: 1fr 1fr; }
       .wallet-stack { width: 260px; height: 360px; }
+      
+      .carousel-stage {
+        height: 400px !important;
+        perspective: 700px !important;
+      }
+      
+      .carousel-card {
+        width: 240px !important;
+        height: 320px !important;
+        margin-left: -120px !important;
+        margin-top: -160px !important;
+        border-radius: 18px !important;
+      }
+      
+      .carousel-card .card-body {
+        padding: 14px 16px 18px !important;
+      }
+      
+      .carousel-card .card-name {
+        font-size: 0.9rem !important;
+      }
+      
+      .carousel-card .card-desc {
+        font-size: 0.6rem !important;
+        -webkit-line-clamp: 2 !important;
+      }
+      
+      .carousel-card .card-link {
+        font-size: 0.6rem !important;
+      }
+      
+      .carousel-btn {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 1.1rem !important;
+      }
     }
-
-    @media (max-width: 768px) {
-  .social-grid {
-    grid-template-columns: 1fr !important;
-    gap: 40px !important;
-  }
-}
-
-/* Fix for mobile card clicks */
-@media (max-width: 768px) {
-  .carousel-card {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  .carousel-stage {
-    touch-action: pan-y !important;
-  }
-  
-  .carousel-track {
-    pointer-events: none !important;
-  }
-  
-  .carousel-card {
-    pointer-events: auto !important;
-  }
-}
-
-/* Mobile - Better 3D carousel with multiple cards visible */
-@media (max-width: 768px) {
-  .carousel-stage {
-    height: 400px !important;
-    perspective: 800px !important;
-    perspective-origin: 50% 40% !important;
-    overflow: visible !important;
-  }
-  
-  .carousel-track {
-    transform-style: preserve-3d !important;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
-  
-  .carousel-card {
-    position: absolute !important;
-    width: 220px !important;
-    height: 300px !important;
-    left: 50% !important;
-    top: 50% !important;
-    margin-left: -110px !important;
-    margin-top: -150px !important;
-    border-radius: 18px !important;
-    backface-visibility: visible !important;
-    transition: none !important;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8) !important;
-  }
-  
-  .carousel-card .card-media {
-    height: 50% !important;
-  }
-  
-  .carousel-card .card-body {
-    padding: 14px 16px 18px !important;
-  }
-  
-  .carousel-card .card-name {
-    font-size: 0.95rem !important;
-  }
-  
-  .carousel-card .card-desc {
-    font-size: 0.65rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
-  
-  .carousel-card .card-tag {
-    font-size: 0.5rem !important;
-  }
-  
-  .carousel-card .card-link {
-    font-size: 0.6rem !important;
-  }
-  
-  /* Keep the 3D rotation effect but smoother */
-  .carousel-card {
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
-  }
-  
-  /* Make navigation bigger and more touch-friendly */
-  .carousel-btn {
-    width: 44px !important;
-    height: 44px !important;
-    font-size: 1.2rem !important;
-    background: rgba(15,15,13,0.8) !important;
-  }
-  
-  .carousel-indicator {
-    font-size: 0.7rem !important;
-    min-width: 50px !important;
-  }
-  
-  .carousel-nav {
-    gap: 16px !important;
-    margin-top: 30px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .carousel-stage {
-    height: 340px !important;
-    perspective: 600px !important;
-  }
-  
-  .carousel-card {
-    width: 180px !important;
-    height: 260px !important;
-    margin-left: -90px !important;
-    margin-top: -130px !important;
-    border-radius: 16px !important;
-  }
-  
-  .carousel-card .card-body {
-    padding: 10px 12px 14px !important;
-  }
-  
-  .carousel-card .card-name {
-    font-size: 0.85rem !important;
-  }
-  
-  .carousel-card .card-desc {
-    font-size: 0.55rem !important;
-    -webkit-line-clamp: 1 !important;
-  }
-  
-  .carousel-card .card-link {
-    font-size: 0.55rem !important;
-  }
-  
-  .carousel-btn {
-    width: 38px !important;
-    height: 38px !important;
-    font-size: 1rem !important;
-  }
-}
-
-/* Mobile - Better 3D carousel with multiple cards visible */
-@media (max-width: 768px) {
-  .carousel-stage {
-    height: 460px !important;
-    perspective: 900px !important;
-    perspective-origin: 50% 40% !important;
-    overflow: visible !important;
-  }
-  
-  .carousel-track {
-    transform-style: preserve-3d !important;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
-  
-  .carousel-card {
-    position: absolute !important;
-    width: 280px !important;
-    height: 360px !important;
-    left: 50% !important;
-    top: 50% !important;
-    margin-left: -140px !important;
-    margin-top: -180px !important;
-    border-radius: 20px !important;
-    backface-visibility: visible !important;
-    transition: none !important;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.9) !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-  }
-  
-  .carousel-card .card-media {
-    height: 50% !important;
-  }
-  
-  .carousel-card .card-body {
-    padding: 16px 18px 20px !important;
-  }
-  
-  .carousel-card .card-name {
-    font-size: 1rem !important;
-  }
-  
-  .carousel-card .card-desc {
-    font-size: 0.7rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
-  
-  .carousel-card .card-tag {
-    font-size: 0.55rem !important;
-  }
-  
-  .carousel-card .card-link {
-    font-size: 0.65rem !important;
-  }
-  
-  /* Keep the 3D rotation effect but smoother */
-  .carousel-card {
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
-  }
-  
-  /* Make navigation bigger and more touch-friendly */
-  .carousel-btn {
-    width: 48px !important;
-    height: 48px !important;
-    font-size: 1.3rem !important;
-    background: rgba(15,15,13,0.85) !important;
-  }
-  
-  .carousel-indicator {
-    font-size: 0.75rem !important;
-    min-width: 55px !important;
-  }
-  
-  .carousel-nav {
-    gap: 20px !important;
-    margin-top: 35px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .carousel-stage {
-    height: 400px !important;
-    perspective: 700px !important;
-  }
-  
-  .carousel-card {
-    width: 240px !important;
-    height: 320px !important;
-    margin-left: -120px !important;
-    margin-top: -160px !important;
-    border-radius: 18px !important;
-  }
-  
-  .carousel-card .card-body {
-    padding: 14px 16px 18px !important;
-  }
-  
-  .carousel-card .card-name {
-    font-size: 0.9rem !important;
-  }
-  
-  .carousel-card .card-desc {
-    font-size: 0.6rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
-  
-  .carousel-card .card-link {
-    font-size: 0.6rem !important;
-  }
-  
-  .carousel-btn {
-    width: 42px !important;
-    height: 42px !important;
-    font-size: 1.1rem !important;
-  }
-}
-
-/* Ensure cards are clickable on mobile */
-.carousel-card {
-  cursor: pointer !important;
-  pointer-events: auto !important;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.carousel-card:active {
-  transform: scale(0.97) !important;
-}
   </style>
 </head>
 <body>
@@ -1819,9 +1649,6 @@
   </div>
 </section>
 
-
-
-
 <div class="divider"></div>
 
 <!-- ABOUT -->
@@ -1857,7 +1684,6 @@
 
 <div class="divider"></div>
 
-<!-- SOCIAL -->
 <!-- SOCIAL / CONTACT SECTION -->
 <section id="social">
   <div class="section-label reveal">Get in touch</div>
