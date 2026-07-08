@@ -1896,8 +1896,8 @@
   const statsEl = document.getElementById('stats');
   if (statsEl) statObs.observe(statsEl);
 
- // ============================================================
-// LOADER - SEPARATE TIMINGS FOR SIGNATURE & PROGRESS BAR
+// ============================================================
+// LOADER - SEPARATE TIMINGS
 // ============================================================
 (function() {
   const loader = document.getElementById('loader');
@@ -1917,8 +1917,8 @@
     signaturePath.getBoundingClientRect();
   }
   
-  const progressDuration = 4000; // Progress bar fills in 2.5s
-  const signatureDuration = 4000; // Signature draws in 4s (slower!)
+  const progressDuration = 2500; // Progress bar: 2.5 seconds
+  const signatureDuration = 6000; // Signature drawing: 6 seconds (SLOWER!)
   const startTime = Date.now();
   let signatureStarted = false;
   
@@ -1927,31 +1927,32 @@
     const progress = Math.min(elapsed / progressDuration, 1);
     const percent = Math.round(progress * 100);
     
-    // Update progress bar
+    // Update progress bar (fast - 2.5s)
     if (progressBar) progressBar.style.width = percent + '%';
     if (percentText) percentText.textContent = percent + '%';
     
-    // Start signature drawing (with its own slower timing)
+    // Start signature drawing (slow - 6s) - ONLY ONCE
     if (!signatureStarted) {
       signatureStarted = true;
       if (signaturePath) {
-        // Signature uses its own duration (4000ms) to draw slower
+        // Signature uses its own duration (6000ms) to draw slower
         signaturePath.style.transition = `stroke-dashoffset ${signatureDuration}ms cubic-bezier(0.25, 0.1, 0.25, 1)`;
         signaturePath.style.strokeDashoffset = '0';
       }
     }
     
-    // Progress bar continues
+    // Progress bar continues to update
     if (progress < 1) {
       requestAnimationFrame(updateProgress);
     } else {
-      // Hide loader after progress bar completes
+      // Progress bar reached 100% - but keep loader visible until signature finishes
+      // Wait for signature to finish drawing
       setTimeout(function() {
         if (loader) {
           loader.classList.add('hide');
           document.body.style.overflow = 'auto';
         }
-      }, 100);
+      }, signatureDuration - progressDuration + 100); // Wait remaining signature time
     }
   }
   
@@ -1959,13 +1960,12 @@
     updateProgress();
   }, 100);
   
-  // Safety timeout (based on signature duration)
+  // Safety timeout - force hide after signature duration + buffer
   setTimeout(() => {
     if (loader && !loader.classList.contains('hide')) {
       if (progressBar) progressBar.style.width = '100%';
       if (percentText) percentText.textContent = '100%';
       if (signaturePath) {
-        // Force signature to complete if still drawing
         signaturePath.style.transition = 'none';
         signaturePath.style.strokeDashoffset = '0';
       }
@@ -1976,7 +1976,7 @@
         }
       }, 100);
     }
-  }, signatureDuration + 500); // Wait for signature to finish + buffer
+  }, signatureDuration + 500);
   
   document.body.style.overflow = 'hidden';
 })();
