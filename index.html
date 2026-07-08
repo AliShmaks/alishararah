@@ -1247,9 +1247,8 @@
       .wallet-label { display: none; }
       .card-number-row span { font-size: 0.8rem; padding: 0.1rem 0.4rem; }
 
-      /* 3D carousel mobile - FIXED FOR REAL PHONES */
-@media (max-width: 768px) {
-  .carousel-stage {
+      /* 3D carousel mobile */
+        .carousel-stage {
     height: 480px !important;
     perspective: 1000px !important;
     perspective-origin: 50% 40% !important;
@@ -1880,7 +1879,7 @@ const indicator = document.getElementById('indicator');
 let currentIndex = 0;
 const total = projectData.length;
 const isMobile = window.innerWidth <= 768;
-const radius = isMobile ? 220 : 420;
+const radius = isMobile ? 200 : 420;
 let cardElements = [];
 let isAnimating = false;
 
