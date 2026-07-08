@@ -1891,7 +1891,7 @@ projectData.forEach((p, i) => {
   card.target = '_blank';
   card.rel = 'noopener';
   card.dataset.index = i;
-  card.style.cursor = 'pointer';
+  // Remove pointer-events override
   card.style.pointerEvents = 'auto';
   const imgHtml = p.img ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'" />` : '';
   card.innerHTML = `
@@ -1912,6 +1912,16 @@ projectData.forEach((p, i) => {
   track.appendChild(card);
   cardElements.push(card);
 });
+
+// Remove inline pointer-events from mobile CSS
+// We'll handle this with a style override
+const styleOverride = document.createElement('style');
+styleOverride.textContent = `
+  .carousel-card {
+    pointer-events: auto !important;
+  }
+`;
+document.head.appendChild(styleOverride);
 
 let currentAngle = 0;
 let touchMoved = false;
@@ -1976,8 +1986,14 @@ positionCards(0, false);
 updateIndicator();
 
 // Arrow buttons
-document.getElementById('nextBtn').addEventListener('click', next);
-document.getElementById('prevBtn').addEventListener('click', prev);
+document.getElementById('nextBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  next();
+});
+document.getElementById('prevBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  prev();
+});
 
 // Keyboard
 document.addEventListener('keydown', (e) => {
@@ -2060,30 +2076,35 @@ window.addEventListener('mouseup', onEnd);
 
 // Touch events - improved for mobile clicks
 let touchStartTime = 0;
+let touchStartPos = { x: 0, y: 0 };
 
 stage.addEventListener('touchstart', (e) => {
   touchMoved = false;
   touchStartTime = Date.now();
   const touch = e.touches[0];
-  if (touch) onStart(touch.clientX);
+  if (touch) {
+    touchStartPos = { x: touch.clientX, y: touch.clientY };
+    onStart(touch.clientX);
+  }
 }, { passive: true });
 
 window.addEventListener('touchmove', (e) => {
   const touch = e.touches[0];
-  if (touch) onMove(touch.clientX);
+  if (touch) {
+    onMove(touch.clientX);
+  }
 }, { passive: true });
 
 window.addEventListener('touchend', (e) => {
-  // If touch lasted less than 200ms and didn't move, it's a click
+  // If touch lasted less than 300ms and didn't move, it's a click
   const touchDuration = Date.now() - touchStartTime;
-  if (!touchMoved && touchDuration < 200) {
+  if (!touchMoved && touchDuration < 300) {
     // Allow the click to happen naturally
     isDragging = false;
     return;
   }
   onEnd();
 }, { passive: true });
-
 
 // Prevent card clicks when dragging
 cardElements.forEach(card => {
@@ -2093,8 +2114,14 @@ cardElements.forEach(card => {
       e.stopPropagation();
       return false;
     }
+    // Normal click - let the link work
     return true;
   });
+  
+  // Also handle touch events on cards directly
+  card.addEventListener('touchstart', function(e) {
+    // Don't prevent default - let it bubble
+  }, { passive: true });
 });
 
 console.log('🚀 3D CAROUSEL · FULLY FIXED - mobile clicks work!');
