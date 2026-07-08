@@ -1891,8 +1891,11 @@ projectData.forEach((p, i) => {
   card.target = '_blank';
   card.rel = 'noopener';
   card.dataset.index = i;
-  // Remove pointer-events override
   card.style.pointerEvents = 'auto';
+  card.style.cursor = 'pointer';
+  card.style.display = 'flex';
+  card.style.flexDirection = 'column';
+  
   const imgHtml = p.img ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'" />` : '';
   card.innerHTML = `
     <div class="card-media">
@@ -1904,7 +1907,7 @@ projectData.forEach((p, i) => {
         <div class="card-name">${p.name}</div>
         <div class="card-desc">${p.desc}</div>
       </div>
-      <span class="card-link">
+      <span class="card-link" style="pointer-events: none;">
         Visit <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
       </span>
     </div>
@@ -1912,7 +1915,6 @@ projectData.forEach((p, i) => {
   track.appendChild(card);
   cardElements.push(card);
 });
-
 // Remove inline pointer-events from mobile CSS
 // We'll handle this with a style override
 const styleOverride = document.createElement('style');
@@ -2106,7 +2108,7 @@ window.addEventListener('touchend', (e) => {
   onEnd();
 }, { passive: true });
 
-// Prevent card clicks when dragging
+// Card click handler - make the entire card clickable
 cardElements.forEach(card => {
   card.addEventListener('click', function(e) {
     if (isDragging || touchMoved) {
@@ -2114,13 +2116,13 @@ cardElements.forEach(card => {
       e.stopPropagation();
       return false;
     }
-    // Normal click - let the link work
+    // Let the link work - it will open in new tab
     return true;
   });
   
-  // Also handle touch events on cards directly
+  // For touch devices
   card.addEventListener('touchstart', function(e) {
-    // Don't prevent default - let it bubble
+    // Allow touch to work
   }, { passive: true });
 });
 
