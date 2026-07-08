@@ -1412,6 +1412,135 @@
   }
 }
 
+/* Mobile - Better 3D carousel with multiple cards visible */
+@media (max-width: 768px) {
+  .carousel-stage {
+    height: 460px !important;
+    perspective: 900px !important;
+    perspective-origin: 50% 40% !important;
+    overflow: visible !important;
+  }
+  
+  .carousel-track {
+    transform-style: preserve-3d !important;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .carousel-card {
+    position: absolute !important;
+    width: 280px !important;
+    height: 360px !important;
+    left: 50% !important;
+    top: 50% !important;
+    margin-left: -140px !important;
+    margin-top: -180px !important;
+    border-radius: 20px !important;
+    backface-visibility: visible !important;
+    transition: none !important;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.9) !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+  }
+  
+  .carousel-card .card-media {
+    height: 50% !important;
+  }
+  
+  .carousel-card .card-body {
+    padding: 16px 18px 20px !important;
+  }
+  
+  .carousel-card .card-name {
+    font-size: 1rem !important;
+  }
+  
+  .carousel-card .card-desc {
+    font-size: 0.7rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  
+  .carousel-card .card-tag {
+    font-size: 0.55rem !important;
+  }
+  
+  .carousel-card .card-link {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Keep the 3D rotation effect but smoother */
+  .carousel-card {
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  }
+  
+  /* Make navigation bigger and more touch-friendly */
+  .carousel-btn {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.3rem !important;
+    background: rgba(15,15,13,0.85) !important;
+  }
+  
+  .carousel-indicator {
+    font-size: 0.75rem !important;
+    min-width: 55px !important;
+  }
+  
+  .carousel-nav {
+    gap: 20px !important;
+    margin-top: 35px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-stage {
+    height: 400px !important;
+    perspective: 700px !important;
+  }
+  
+  .carousel-card {
+    width: 240px !important;
+    height: 320px !important;
+    margin-left: -120px !important;
+    margin-top: -160px !important;
+    border-radius: 18px !important;
+  }
+  
+  .carousel-card .card-body {
+    padding: 14px 16px 18px !important;
+  }
+  
+  .carousel-card .card-name {
+    font-size: 0.9rem !important;
+  }
+  
+  .carousel-card .card-desc {
+    font-size: 0.6rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  
+  .carousel-card .card-link {
+    font-size: 0.6rem !important;
+  }
+  
+  .carousel-btn {
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 1.1rem !important;
+  }
+}
+
+/* Ensure cards are clickable on mobile */
+.carousel-card {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.carousel-card:active {
+  transform: scale(0.97) !important;
+}
   </style>
 </head>
 <body>
@@ -1926,7 +2055,7 @@ const indicator = document.getElementById('indicator');
 let currentIndex = 0;
 const total = projectData.length;
 const isMobile = window.innerWidth <= 768;
-const radius = isMobile ? 280 : 420;
+const radius = isMobile ? 220 : 420;
 let cardElements = [];
 let isAnimating = false;
 
