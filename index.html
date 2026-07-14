@@ -513,6 +513,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      z-index: 1;
+      overflow: hidden;
     }
 
     .services-header {
@@ -663,13 +665,24 @@
       background: var(--bg2);
       padding: 120px 48px;
       overflow: hidden;
+      position: relative;
+      z-index: 20;
+      min-height: 100vh;
+
+      /* Scroll runway for the four service-card animations. */
+      margin-top: 320vh;
+
+      /* Projects behaves like a solid curtain over Services. */
+      isolation: isolate;
+      border-radius: 32px 32px 0 0;
+      box-shadow: 0 -35px 90px rgba(0, 0, 0, 0.78);
     }
 
     .projects-header {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 80px;
+      margin-bottom: 10px;
       gap: 24px;
       flex-wrap: wrap;
     }
@@ -1243,132 +1256,192 @@
       .btn { justify-content: center; }
 
       #services { padding: 80px 24px; }
+      #projects {
+        margin-top: 360vh;
+        border-radius: 22px 22px 0 0;
+      }
       .wallet-stack { width: 280px; height: 380px; }
       .wallet-label { display: none; }
       .card-number-row span { font-size: 0.8rem; padding: 0.1rem 0.4rem; }
 
-      /* 3D carousel mobile */
-        .carousel-stage {
-    height: 480px !important;
-    perspective: 1000px !important;
-    perspective-origin: 50% 40% !important;
-    overflow: visible !important;
-    touch-action: pan-y !important;
+      /* MOBILE PROJECTS — CLEAN 3D DECK */
+      #projects {
+        padding: 88px 18px 96px;
+        min-height: 100svh;
+        overflow: hidden;
+      }
+
+      .projects-header {
+        margin-bottom: 18px;
+        gap: 14px;
+      }
+
+      .projects-header .section-label {
+        margin-bottom: 16px;
+      }
+
+      .projects-header .section-title {
+        font-size: clamp(2.35rem, 11vw, 3.65rem);
+        line-height: .98;
+      }
+
+      .projects-count {
+        font-size: .65rem;
+        padding-bottom: 6px;
+      }
+
+      .carousel-stage {
+        width: calc(100vw - 24px);
+        height: 470px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        perspective: 1100px;
+        perspective-origin: 50% 46%;
+        overflow: visible;
+        touch-action: pan-y;
+      }
+
+      .carousel-stage::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        width: min(78vw, 330px);
+        height: 72px;
+        transform: translateX(-50%) rotateX(72deg);
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(45,212,191,.18), rgba(0,0,0,.02) 68%, transparent 72%);
+        filter: blur(8px);
+        pointer-events: none;
+      }
+
+      .carousel-track {
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        pointer-events: none;
+      }
+
+      .carousel-card {
+        width: min(78vw, 310px);
+        height: 392px;
+        left: 50%;
+        top: 50%;
+        margin: -196px 0 0 0;
+        border-radius: 24px;
+        border: 1px solid rgba(240,237,230,.12);
+        background: linear-gradient(155deg, rgba(27,27,24,.98), rgba(10,10,9,.99));
+        box-shadow: 0 30px 75px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.04);
+        transform-origin: 50% 82%;
+        backface-visibility: hidden;
+        pointer-events: auto;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .carousel-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(120deg, rgba(255,255,255,.09), transparent 22%, transparent 72%, rgba(45,212,191,.07));
+        pointer-events: none;
+      }
+
+      .carousel-card .card-media {
+        height: 54%;
+        border-bottom-color: rgba(240,237,230,.08);
+      }
+
+      .carousel-card .card-media img {
+        transform: scale(1.02);
+      }
+
+      .carousel-card .card-body {
+        padding: 17px 18px 19px;
+      }
+
+      .carousel-card .card-tag { font-size: .57rem; }
+      .carousel-card .card-name { font-size: 1.18rem; }
+      .carousel-card .card-desc {
+        font-size: .72rem;
+        line-height: 1.55;
+        -webkit-line-clamp: 2;
+      }
+      .carousel-card .card-link { font-size: .64rem; }
+
+      .carousel-nav {
+        gap: 16px;
+        margin-top: 12px;
+        position: relative;
+        z-index: 30;
+      }
+
+      .carousel-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.15rem;
+        background: rgba(15,15,13,.88);
+        border-color: rgba(240,237,230,.14);
+        box-shadow: 0 12px 28px rgba(0,0,0,.35);
+      }
+
+      .carousel-indicator {
+        min-width: 62px;
+        padding: 8px 12px;
+        border: 1px solid rgba(240,237,230,.08);
+        border-radius: 999px;
+        background: rgba(255,255,255,.025);
+        font-size: .68rem;
+      }
+    }
+
+@media (max-width: 480px) {
+  #projects { padding-inline: 14px; }
+
+  .carousel-stage {
+    height: 430px;
+    perspective: 900px;
   }
-  
-  .carousel-track {
-    transform-style: preserve-3d !important;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: none !important;
-  }
-  
+
   .carousel-card {
-    position: absolute !important;
-    width: 85% !important;
-    max-width: 300px !important;
-    height: 380px !important;
-    left: 50% !important;
-    top: 50% !important;
-    margin-left: -42.5% !important;
-    margin-top: -190px !important;
-    border-radius: 20px !important;
-    backface-visibility: visible !important;
-    transition: none !important;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.9) !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    -webkit-tap-highlight-color: transparent !important;
-    z-index: 1 !important;
+    width: min(82vw, 286px);
+    height: 360px;
+    margin: -180px 0 0 0;
+    border-radius: 21px;
   }
-  
-  .carousel-card .card-media {
-    height: 50% !important;
-  }
-  
-  .carousel-card .card-body {
-    padding: 16px 18px 20px !important;
-  }
-  
-  .carousel-card .card-name {
-    font-size: 1rem !important;
-  }
-  
-  .carousel-card .card-desc {
-    font-size: 0.7rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
-  
-  .carousel-card .card-tag {
-    font-size: 0.55rem !important;
-  }
-  
-  .carousel-card .card-link {
-    font-size: 0.65rem !important;
-  }
-  
-  .carousel-card {
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
-  }
-  
+
+  .carousel-card .card-media { height: 52%; }
+  .carousel-card .card-body { padding: 14px 15px 16px; }
+  .carousel-card .card-name { font-size: 1rem; }
+  .carousel-card .card-desc { font-size: .67rem; }
+
   .carousel-btn {
-    width: 50px !important;
-    height: 50px !important;
-    font-size: 1.3rem !important;
-    background: rgba(15,15,13,0.85) !important;
-    z-index: 10 !important;
-    position: relative !important;
-  }
-  
-  .carousel-indicator {
-    font-size: 0.75rem !important;
-    min-width: 55px !important;
-  }
-  
-  .carousel-nav {
-    gap: 20px !important;
-    margin-top: 35px !important;
-    position: relative !important;
-    z-index: 10 !important;
+    width: 44px;
+    height: 44px;
   }
 }
 
-@media (max-width: 480px) {
-  .carousel-stage {
-    height: 420px !important;
-    perspective: 800px !important;
-  }
-  
-  .carousel-card {
-    height: 340px !important;
-    margin-top: -170px !important;
-    max-width: 260px !important;
-  }
-  
-  .carousel-card .card-body {
-    padding: 12px 14px 16px !important;
-  }
-  
-  .carousel-card .card-name {
-    font-size: 0.85rem !important;
-  }
-  
-  .carousel-card .card-desc {
-    font-size: 0.6rem !important;
-    -webkit-line-clamp: 2 !important;
-  }
-  
-  .carousel-card .card-link {
-    font-size: 0.6rem !important;
-  }
-  
-  .carousel-btn {
-    width: 44px !important;
-    height: 44px !important;
-    font-size: 1.1rem !important;
-  }
-}
+
+    /* ================================================================
+       PROJECTS → SKILLS COVER TRANSITION
+       Project design/content stays completely unchanged.
+       ================================================================ */
+
+    #skills {
+      position: relative;
+      z-index: 999;
+      min-height: 100vh;
+      margin-top: -100vh;
+
+      /* Fully solid curtain above the pinned Projects section. */
+      background: var(--bg) !important;
+      isolation: isolate;
+      overflow: hidden;
+      transform: translateZ(0);
+      box-shadow: 0 -35px 90px rgba(0, 0, 0, 0.78);
+    }
+
   </style>
 </head>
 <body>
@@ -1462,7 +1535,7 @@
 <section id="services">
     <div class="services-header">
         <div class="section-label reveal">What I do</div>
-        <h2 class="section-title reveal d1">Full‑stack <br /><em>services</em></h2>
+        <h2 class="section-title reveal d1">Services </h2>
     </div>
 
     <div class="wallet-stack">
@@ -1542,13 +1615,10 @@
     </div>
 </section>
 
-<div class="divider"></div>
-
 <!-- ===== 3D PROJECT CAROUSEL ===== -->
 <section id="projects">
   <div class="projects-header">
     <div>
-      <div class="section-label reveal">Selected work</div>
       <h2 class="section-title reveal d1">Projects</h2>
     </div>
     <span class="projects-count reveal d2">05 live sites</span>
@@ -1764,11 +1834,17 @@
     scrollTrigger: {
       trigger: '#services',
       start: 'top top',
-      end: 'bottom top',
+
+      /* Keep Services pinned until Projects has completely covered it. */
+      endTrigger: '#projects',
+      end: 'top top',
+
       scrub: 2,
       pin: '#services',
+      pinSpacing: false,
       markers: false,
       anticipatePin: 1,
+      invalidateOnRefresh: true
     }
   });
 
@@ -1790,8 +1866,38 @@
     .to('.wallet-1, .wallet-2, .wallet-4', { y: 0, scale: 1, duration: 0.3, ease: 'power2.inOut' }, 3.1)
     .to('.wallet-3', { boxShadow: '0 5px 20px rgba(0,0,0,0.3)', duration: 0.2 }, 3.1);
 
-  tl.to('.wallet-4', { boxShadow: '0 30px 80px rgba(100,255,150,0.2)', duration: 0.3 }, 3.3)
-    .to('.wallet-4', { boxShadow: '0 20px 60px rgba(0,0,0,0.8)', duration: 0.3 }, 3.7);
+  tl.to('.wallet-4', {
+    scale: 1.03,
+    borderColor: 'rgba(45, 212, 191, 0.9)',
+    boxShadow: '0 30px 90px rgba(45, 212, 191, 0.28)',
+    duration: 0.45,
+    ease: 'power2.out'
+  }, 3.3)
+  /* Hold the final highlighted state while Projects rises like a curtain. */
+  .to({}, { duration: 0.9 });
+
+
+  // ================================================================
+  // PROJECTS → SKILLS COVER TRANSITION
+  // This pins Projects without changing its design or internal animation.
+  // Skills then scrolls above it and covers it.
+  // ================================================================
+  ScrollTrigger.create({
+    trigger: '#projects',
+    start: 'top top',
+    end: '+=100%',
+    pin: true,
+    pinSpacing: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+
+    onEnter: () => gsap.set('#projects', { zIndex: 20 }),
+    onEnterBack: () => gsap.set('#projects', { zIndex: 20 }),
+    onLeave: () => gsap.set('#projects', { zIndex: 20 }),
+    onLeaveBack: () => gsap.set('#projects', { zIndex: 20 })
+  });
+
+  window.addEventListener('load', () => ScrollTrigger.refresh());
 
   // ----- NAV SCROLL -----
   const nav = document.getElementById('nav');
@@ -1878,8 +1984,8 @@ const track = document.getElementById('carouselTrack');
 const indicator = document.getElementById('indicator');
 let currentIndex = 0;
 const total = projectData.length;
-const isMobile = window.innerWidth <= 768;
-const radius = isMobile ? 200 : 420;
+let isMobile = window.matchMedia('(max-width: 768px)').matches;
+const desktopRadius = 420;
 let cardElements = [];
 let isAnimating = false;
 
@@ -1930,25 +2036,46 @@ let touchMoved = false;
 
 function positionCards(angle, animate = true) {
   const angleStep = (Math.PI * 2) / total;
+
   cardElements.forEach((card, i) => {
-    const cardAngle = i * angleStep + angle;
-    const x = Math.sin(cardAngle) * radius;
-    const z = Math.cos(cardAngle) * radius - 100;
-    const rotY = -cardAngle * (180 / Math.PI);
-    
-    if (animate) {
-      card.style.transition = 'transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+    card.style.transition = animate
+      ? 'transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease, filter 0.6s ease'
+      : 'none';
+
+    if (isMobile) {
+      let offset = i - currentIndex;
+      if (offset > total / 2) offset -= total;
+      if (offset < -total / 2) offset += total;
+
+      const abs = Math.abs(offset);
+      const x = offset * 44;
+      const y = abs * 15;
+      const z = -abs * 105;
+      const rotateY = offset * -13;
+      const rotateZ = offset * 1.8;
+      const scale = Math.max(0.78, 1 - abs * 0.105);
+
+      card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, ${z}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+      card.style.opacity = abs > 2 ? '0' : String(Math.max(0.2, 1 - abs * 0.28));
+      card.style.filter = `brightness(${Math.max(0.48, 1 - abs * 0.18)}) saturate(${Math.max(0.65, 1 - abs * 0.12)})`;
+      card.style.zIndex = String(20 - abs);
+      card.style.pointerEvents = abs === 0 ? 'auto' : 'none';
     } else {
-      card.style.transition = 'none';
+      const cardAngle = i * angleStep + angle;
+      const x = Math.sin(cardAngle) * desktopRadius;
+      const z = Math.cos(cardAngle) * desktopRadius - 100;
+      const rotY = -cardAngle * (180 / Math.PI);
+      const depth = (z + 400) / 800;
+
+      card.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${rotY}deg) rotateX(2deg)`;
+      card.style.opacity = '1';
+      card.style.zIndex = String(Math.round(depth * 10));
+      card.style.filter = `brightness(${0.5 + 0.5 * depth})`;
+      card.style.pointerEvents = 'auto';
     }
-    
-    card.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${rotY}deg) rotateX(2deg)`;
-    const depth = (z + 400) / 800;
-    card.style.opacity = 1;
-    card.style.zIndex = Math.round(depth * 10);
-    card.style.filter = `brightness(${0.5 + 0.5 * depth})`;
   });
 }
+
 
 function updateIndicator() {
   indicator.textContent = `${currentIndex + 1} / ${total}`;
@@ -2008,6 +2135,7 @@ let isDragging = false;
 let startX = 0;
 let startAngle = 0;
 let dragAngle = 0;
+let lastClientX = 0;
 const stage = document.getElementById('carouselStage');
 
 function onStart(clientX) {
@@ -2015,6 +2143,7 @@ function onStart(clientX) {
   isDragging = true;
   touchMoved = false;
   startX = clientX;
+  lastClientX = clientX;
   startAngle = currentAngle;
   stage.style.cursor = 'grabbing';
   
@@ -2026,18 +2155,32 @@ function onStart(clientX) {
 function onMove(clientX) {
   if (!isDragging) return;
   const deltaX = clientX - startX;
-  if (Math.abs(deltaX) > 10) {
-    touchMoved = true;
+  lastClientX = clientX;
+  if (Math.abs(deltaX) > 10) touchMoved = true;
+
+  if (!isMobile) {
+    const angleDelta = deltaX / 150;
+    dragAngle = startAngle + angleDelta;
+    positionCards(dragAngle, false);
   }
-  const angleDelta = deltaX / 150;
-  dragAngle = startAngle + angleDelta;
-  positionCards(dragAngle, false);
 }
+
 
 function onEnd() {
   if (!isDragging) return;
   isDragging = false;
   stage.style.cursor = 'default';
+
+  if (isMobile) {
+    const deltaX = (typeof dragAngle === 'number' ? 0 : 0); // keeps desktop state untouched
+    const swipeDistance = lastClientX - startX;
+    if (Math.abs(swipeDistance) > 42) {
+      swipeDistance < 0 ? next() : prev();
+    } else {
+      positionCards(currentAngle, true);
+    }
+    return;
+  }
   
   // Calculate which card is closest
   const angleStep = (Math.PI * 2) / total;
@@ -2124,6 +2267,15 @@ cardElements.forEach(card => {
   card.addEventListener('touchstart', function(e) {
     // Allow touch to work
   }, { passive: true });
+});
+
+window.addEventListener('resize', () => {
+  const nextMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (nextMobile !== isMobile) {
+    isMobile = nextMobile;
+  }
+  currentAngle = -currentIndex * (Math.PI * 2) / total;
+  positionCards(currentAngle, false);
 });
 
 console.log('🚀 3D CAROUSEL · FULLY FIXED - mobile clicks work!');
