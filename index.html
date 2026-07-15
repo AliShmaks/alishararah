@@ -147,7 +147,7 @@
       top: 0;
       left: 0;
       right: 0;
-      z-index: 100;
+      z-index: 5000;
       height: 64px;
       display: flex;
       align-items: center;
@@ -1430,16 +1430,45 @@
 
     #skills {
       position: relative;
-      z-index: 999;
-      min-height: 100vh;
-      margin-top: -100vh;
-
-      /* Fully solid curtain above the pinned Projects section. */
+      z-index: 30;
+      margin-top: 0;
+      min-height: auto;
+      padding: 90px 48px;
       background: var(--bg) !important;
       isolation: isolate;
-      overflow: hidden;
-      transform: translateZ(0);
+      overflow: visible;
       box-shadow: 0 -35px 90px rgba(0, 0, 0, 0.78);
+    }
+
+    /* This solid layer covers the pinned project cards for the full
+       viewport, without forcing the Skills content itself to be 100vh. */
+    #skills::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: max(100%, 100vh);
+      background: var(--bg);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* The next section sits above the extended Skills background. */
+    #tools {
+      position: relative;
+      z-index: 31;
+      isolation: isolate;
+    }
+
+    @media (max-width: 768px) {
+      #skills {
+        padding: 80px 24px;
+      }
+
+      #skills::before {
+        height: max(100%, 100svh);
+      }
     }
 
   </style>
@@ -1887,7 +1916,7 @@
     start: 'top top',
     end: '+=100%',
     pin: true,
-    pinSpacing: true,
+    pinSpacing: false,
     anticipatePin: 1,
     invalidateOnRefresh: true,
 
@@ -1973,11 +2002,11 @@
 // 3D CAROUSEL – PROJECTS (FULLY FIXED WITH MOBILE CLICKS)
 // ============================================================
 const projectData = [
-  { tag: 'Food · Restaurant', name: 'Shmaks', desc: 'Bold burger joint with crispy fries and smash patties. Made with love and real flavor.', link: 'https://shmaksbbq.vercel.app/', img: 'shmaks.png', fallback: '🍔' },
   { tag: 'News · Politics', name: 'أخبار سويسرا الشرق', desc: 'Lebanese news platform covering politics, economy, and sports with real-time updates.', link: 'https://swis-news.vercel.app/', img: 'logoswis.jpg', fallback: '📰' },
-  { tag: 'Luxury · Automotive', name: 'El Alawiye', desc: 'Premium luxury car rental service in Beirut. Curated fleet, unforgettable drives.', link: 'https://alishararah.infinityfree.me/', img: 'green_bmw_m3_competition_2020_4k_hd_cars.jpg', fallback: '🚗' }, 
-  { tag: 'Perfume · Luxury', name: 'AL Ghadeer', desc: 'Premium fragrance house. Authentic, long-lasting scents crafted with elegance.', link: 'https://alghadeerperfume.vercel.app/', img: 'logoal.webp', fallback: '🌸' },
-  { tag: 'Restaurant · Lebanese', name: 'Nute De Jour', desc: 'Authentic Lebanese restaurant with fresh ingredients, bold sauces, and made-to-order dishes.', link: 'https://nutedujour.vercel.app/', img: 'logon.png', fallback: '🍋' }
+  { tag: 'Luxury · Automotive', name: 'El Alawiye', desc: 'Premium luxury car rental service in Beirut. Curated fleet, unforgettable drives.', link: 'https://alishararah.infinityfree.me/', img: 'green_bmw_m3_competition_2020_4k_hd_cars.jpg', fallback: '🚗' },
+  { tag: 'Food · Restaurant', name: 'Dr. Smashed', desc: 'Bold burger joint with crispy fries and smash patties. Made with love and real flavor.', link: 'https://drsmashed.vercel.app/', img: '438906440_1427563001210209_8043969711993804774_n.png', fallback: '🍔' },
+  { tag: 'Restaurant · Lebanese', name: 'Nute De Jour', desc: 'Authentic Lebanese restaurant with fresh ingredients, bold sauces, and made-to-order dishes.', link: 'https://nutedujour.vercel.app/', img: 'logon.png', fallback: '🍋' },
+  { tag: 'Perfume · Luxury', name: 'Essenza', desc: 'Premium fragrance house. Authentic, long-lasting scents crafted with elegance.', link: 'https://essenza-sable.vercel.app/', img: 'essenzalogo.png', fallback: '🌸' }
 ];
 
 const track = document.getElementById('carouselTrack');
