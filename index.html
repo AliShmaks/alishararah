@@ -228,7 +228,29 @@
       box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
     }
 
-    .hamburger {
+    
+.nav-cv {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  color: var(--ink);
+  background: rgba(255,255,255,.025);
+  text-decoration: none;
+  letter-spacing: .04em;
+  transition: all .3s ease;
+}
+
+.nav-cv:hover {
+  color: var(--accent);
+  border-color: var(--accent-border);
+  background: var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
@@ -365,6 +387,10 @@
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
+      margin-left: auto;
+      justify-content: flex-end;
+      align-items: center;
+      flex: 0 0 auto;
     }
     .btn {
       display: inline-flex;
@@ -1251,7 +1277,12 @@
       .hero-left { width: 100%; }
       .hero-social { gap: 10px; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .hero-actions { flex-direction: column; width: 100%; }
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        margin-left: 0;
+        align-items: stretch;
+      }
       .btn { justify-content: center; }
 
       #services { padding: 80px 24px; }
@@ -2347,7 +2378,8 @@ body.skills-covering #projects .carousel-indicator {
     <a href="#tools" class="nav-link">Tools</a>
     <a href="#about" class="nav-link">About</a>
     <a href="#social" class="nav-link">Contact</a>
-    <a href="#tools" class="nav-cta">Get Tools</a>
+    <a href="AliShararahCV.pdf" class="nav-cv" download>Download CV</a>
+      <a href="#tools" class="nav-cta">Get Tools</a>
   </div>
   <button class="hamburger" id="hbg" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -2392,7 +2424,16 @@ body.skills-covering #projects .carousel-indicator {
       <button class="btn btn-ghost" onclick="document.querySelector('#tools').scrollIntoView({behavior:'smooth'})">
         Download tools
       </button>
-    </div>
+    
+        <a href="AliShararahCV.pdf" class="btn btn-ghost" download>
+  <span>Download CV</span>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3v12"></path>
+    <polyline points="7 10 12 15 17 10"></polyline>
+    <path d="M5 21h14"></path>
+  </svg>
+</a>
+      </div>
   </div>
   <div class="hero-scroll">SCROLL</div>
 </section>
